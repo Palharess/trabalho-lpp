@@ -17,4 +17,12 @@ public class NomesLista {
     public void addNomes(Nomes nomes) {
        this.nomes.add(nomes);
     }
+
+    public List<Nomes> getNomes() {
+        return nomes;
+    }
+
+    public void setNomes(List<Nomes> nomes) {
+        this.nomes = nomes;
+    }
 }

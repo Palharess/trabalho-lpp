@@ -1,5 +1,5 @@
 package enums;
 
 public enum Cmp {
-    EQ, NE, GT, GE, LT, LE
+    eq, ne, gt, ge, lt, le
 }

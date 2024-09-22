@@ -1,0 +1,12 @@
+io.print(1);
+x_.prototype = base
+
+io.print(0);
+io.print(1, 2, 3);
+x_.prototype = base
+
+io.print(0);
+io.print(1 , 2 , 3   );
+x_.prototype = base
+
+io.print(0);
