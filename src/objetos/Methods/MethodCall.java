@@ -1,5 +1,6 @@
 package objetos.Methods;
 
+import interfaces.CallMethod;
 import objetos.Nomes;
 import objetos.NomesLista;
 
@@ -7,7 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MethodCall {
+public class MethodCall implements CallMethod {
     private Nomes nomeObjetos;
     private Nomes nomeMethod;
     private NomesLista parameters;

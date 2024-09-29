@@ -25,4 +25,58 @@ public class If {
         this.elseStmts = elseStmts;
     }
 
+//    public void append_result() {
+//        String newLine = "if (" + this.nomeEsquerda.getNome() + " " + this.cmp + " " + this.nomeDireita.getNome() + ") {";
+//        for (IfStmt stmt : thenStmts) {
+//            stmt.append_result();
+//        }
+//        System.out.println("}");
+//        if (elseStmts != null) {
+//            System.out.println("else {");
+//            for (IfStmt stmt : elseStmts) {
+//                stmt.append_result();
+//            }
+//            System.out.println("}");
+//        }
+//    }
+
+    public Nomes getNomeEsquerda() {
+        return nomeEsquerda;
+    }
+
+    public void setNomeEsquerda(Nomes nomeEsquerda) {
+        this.nomeEsquerda = nomeEsquerda;
+    }
+
+    public Nomes getNomeDireita() {
+        return nomeDireita;
+    }
+
+    public void setNomeDireita(Nomes nomeDireita) {
+        this.nomeDireita = nomeDireita;
+    }
+
+    public Cmp getCmp() {
+        return cmp;
+    }
+
+    public void setCmp(Cmp cmp) {
+        this.cmp = cmp;
+    }
+
+    public List<IfStmt> getThenStmts() {
+        return thenStmts;
+    }
+
+    public void setThenStmts(List<IfStmt> thenStmts) {
+        this.thenStmts = thenStmts;
+    }
+
+    public List<IfStmt> getElseStmts() {
+        return elseStmts;
+    }
+
+    public void setElseStmts(List<IfStmt> elseStmts) {
+        this.elseStmts = elseStmts;
+    }
 }

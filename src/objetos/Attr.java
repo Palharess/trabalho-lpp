@@ -24,4 +24,10 @@ public class Attr {
     }
 
 
+
+    public Attr(Nomes nomeEsquerdo, String op, Nomes nomeDireito) {
+    }
+
+    public Attr(Arg nameArg) {
+    }
 }

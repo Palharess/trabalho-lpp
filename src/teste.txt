@@ -25,10 +25,12 @@ class Pessoa
                   vars result
                   begin
                     if x gt self.num then
-                      io.print(1 ,2 ,3   )
+                      io.print(1,2,3)
                       x._prototype = base
+                      nome.nome = teste + a
+                      nome = teste.a
                     else
-                      io.print(0)
+                      io.print()
                     end-if
                     return result
                   end-method
