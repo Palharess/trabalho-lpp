@@ -3,16 +3,11 @@ package geradores;
 import enums.Cmp;
 import enums.Op;
 import interfaces.CallMethod;
-import objetos.Attr;
+import objetos.*;
 import objetos.Ifs.*;
-import objetos.Lhs;
 import objetos.Methods.MethodBody;
 import objetos.Methods.MethodCall;
-import objetos.Nomes;
-import objetos.NomesLista;
-import objetos.args.Arg;
-import objetos.args.MethodCallArg;
-import objetos.args.NameArg;
+import objetos.args.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +71,7 @@ public class Gerador {
         for (String line : Texto.split("\n")) {
             if (line.trim().contains("prototype")) {
                 return gerarPrototype(line);
-            } else if (line.trim().contains("(") && line.trim().contains(")")) {
+            } else if (line.trim().contains("(") && line.trim().contains(")") && !line.trim().contains("=")) {
                 return (IfStmt) gerarMethodCall(line);
             } else if (line.trim().startsWith("return")) {
                 return gerarReturn(line);
@@ -92,19 +87,36 @@ public class Gerador {
     private static AttrIfStmt gerarAtribuicao(String line) {
         String separado[] = line.split("=");
 
-        if(separado[0].contains(".")){
+        if(separado[0].contains(".")){ // se tiver setando att de objetp
             String[] partes = separado[0].split("\\.");
             Nomes nome = new Nomes(partes[0]);
             Nomes atributo = new Nomes(partes[1]);
             Lhs lhs = new Lhs(nome, atributo);
             Attr attr = gerarLinhaAttr(separado[1]);
-            AttrIfStmt attrIfStmt = new AttrIfStmt(attr,lhs);
+            AttrIfStmt attrIfStmt = new AttrIfStmt(attr);
+            attrIfStmt.getAttr().setLhs(lhs);
 
         }
         else{
+
             Nomes nome = new Nomes(separado[0]);
-            Arg arg = gerarArg(separado[1]);
-//            AttrIfStmt attrIfStmt = new AttrIfStmt(attr);
+            Attr attr = gerarLinhaAttr(separado[1]);
+            attr.setLhs(new Lhs(nome));
+            if(attr.getArg() instanceof MethodCallArg){
+                MethodCallArg arg = (MethodCallArg) attr.getArg();
+                MethodCall method = (MethodCall) arg.getMethodCall();
+
+                System.out.println(attr.getLhs().getName().getNome() + " = " + method.getNomeMethod() );
+            }
+            if(attr.getArg() instanceof NameArg){
+                NameArg arg = (NameArg) attr.getArg();
+                System.out.println(attr.getLhs().getName().getNome() + " = " + arg.getNome().getNome() );
+            }
+            if(attr.getArg() instanceof NumberArg) {
+                NumberArg arg = (NumberArg) attr.getArg();
+                System.out.println(attr.getLhs().getName().getNome() + " = " + arg.getNumber().getNumero());
+            }
+
 
         }
 
@@ -120,35 +132,52 @@ public class Gerador {
             Nomes nomeEsquerdo = new Nomes(split[0]);
             String op = (split[1]);
             Nomes nomeDireito = new Nomes(split[2]);
-//            System.out.println(nomeEsquerdo.getNome() + " " + op + " " + nomeDireito.getNome());
             Attr attr = new Attr(nomeEsquerdo, op, nomeDireito);
             return attr;
         }
         else{
             Arg arg = gerarArg(linha);
-
+            return new Attr(arg);
 
 
 
         }
-        return null;
+
     }
 
     private static Arg gerarArg(String linha) {
-        if(linha.trim().contains(".")){
+        if(linha.trim().contains("(") && linha.trim().contains(")")){
+
+            CallMethod methodCall = gerarMethodCall(linha);
+            return new MethodCallArg(methodCall);
+        }
+        else if(linha.trim().contains(".")){
             String[] partes = linha.split("\\.");
             Nomes nome = new Nomes(partes[0]);
             Nomes atributo = new Nomes(partes[1]);
             NameArg nameArg = new NameArg(nome, atributo);
             return nameArg;
         }
-        if(linha.trim().contains("(") && linha.trim().contains(")")){
-            MethodCallArg methodCall = (MethodCallArg) gerarMethodCall(linha);
 
+        else if(linha.trim().contains("new")){
+            String[] split = linha.trim().split(" ");
+            Nomes nome = new Nomes(split[1]);
+            ObjectCreationArg objectCreationArg = new ObjectCreationArg(new ObjectCreation(nome));
+            return objectCreationArg;
 
         }
+        else{
+            try {
+                int valor = Integer.parseInt(linha.trim());
+                return new NumberArg(new Numeros(valor));
+            } catch (NumberFormatException e) {
+                return new NameArg(new Nomes(linha.trim()));
+            }
+        }
 
-        return null;
+
+
+
     }
 
     private static ReturnIfStmt gerarReturn(String line) {

@@ -28,7 +28,10 @@ class Pessoa
                       io.print(1,2,3)
                       x._prototype = base
                       nome.nome = teste + a
-                      nome = teste.a
+                      f = objeto.teste()
+                      b = new Base
+                      b = asad
+                      b = 2
                     else
                       io.print()
                     end-if

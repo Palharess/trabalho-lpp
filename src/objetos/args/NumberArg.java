@@ -8,4 +8,9 @@ public class NumberArg extends Arg{
     public NumberArg(Numeros number) {
         this.number = number;
     }
+
+
+    public Numeros getNumber() {
+        return number;
+    }
 }

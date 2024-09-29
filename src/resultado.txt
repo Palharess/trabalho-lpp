@@ -1,3 +1,132 @@
 io.print(1, 2, 3);
 x_.prototype = base
 
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();
+io.print(1, 2, 3);
+x_.prototype = base
+
+objeto.teste();

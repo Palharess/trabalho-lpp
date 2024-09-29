@@ -28,6 +28,47 @@ public class Attr {
     public Attr(Nomes nomeEsquerdo, String op, Nomes nomeDireito) {
     }
 
-    public Attr(Arg nameArg) {
+    public Attr(Arg arg) {
+    }
+
+
+    public Lhs getLhs() {
+        return lhs;
+    }
+
+    public void setLhs(Lhs lhs) {
+        this.lhs = lhs;
+    }
+
+    public Arg getArg() {
+        return arg;
+    }
+
+    public void setArg(Arg arg) {
+        this.arg = arg;
+    }
+
+    public ArgBin getLeftArgBin() {
+        return leftArgBin;
+    }
+
+    public void setLeftArgBin(ArgBin leftArgBin) {
+        this.leftArgBin = leftArgBin;
+    }
+
+    public Op getOp() {
+        return op;
+    }
+
+    public void setOp(Op op) {
+        this.op = op;
+    }
+
+    public ArgBin getRightArgBin() {
+        return rightArgBin;
+    }
+
+    public void setRightArgBin(ArgBin rightArgBin) {
+        this.rightArgBin = rightArgBin;
     }
 }

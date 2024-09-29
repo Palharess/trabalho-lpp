@@ -18,4 +18,12 @@ public class AttrIfStmt extends IfStmt {
     public AttrIfStmt(Attr attr, Lhs lhs) {
         super();
     }
+
+    public Attr getAttr() {
+        return attr;
+    }
+
+    public void setAttr(Attr attr) {
+        this.attr = attr;
+    }
 }

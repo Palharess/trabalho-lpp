@@ -9,4 +9,8 @@ public class MethodCallArg extends Arg implements CallMethod {
     public MethodCallArg(MethodCall methodCall) {
         this.methodCall = methodCall;
     }
+
+    public CallMethod getMethodCall() {
+        return methodCall;
+    }
 }

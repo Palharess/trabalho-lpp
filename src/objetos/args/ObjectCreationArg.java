@@ -8,4 +8,8 @@ public class ObjectCreationArg extends Arg {
     public ObjectCreationArg(ObjectCreation objectCreation) {
         this.objectCreation = objectCreation;
     }
+
+    public ObjectCreation getObjectCreation() {
+        return objectCreation;
+    }
 }

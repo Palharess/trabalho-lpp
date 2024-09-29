@@ -7,5 +7,10 @@ public class ObjectCreation {
         this.nome = nome;
     }
 
+    public Nomes getNome() {
+        return nome;
+    }
+
+
 
 }

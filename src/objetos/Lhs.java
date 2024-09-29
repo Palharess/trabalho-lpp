@@ -12,4 +12,20 @@ public class Lhs {
         this.name = name;
         this.nomePonto = nomePonto;
     }
+
+    public Nomes getName() {
+        return name;
+    }
+
+    public void setName(Nomes name) {
+        this.name = name;
+    }
+
+    public Nomes getNomePonto() {
+        return nomePonto;
+    }
+
+    public void setNomePonto(Nomes nomePonto) {
+        this.nomePonto = nomePonto;
+    }
 }

@@ -50,4 +50,15 @@ public class MethodCall implements CallMethod {
         }
     }
 
+    public Nomes getNomeObjetos() {
+        return nomeObjetos;
+    }
+
+    public Nomes getNomeMethod() {
+        return nomeMethod;
+    }
+
+    public NomesLista getParameters() {
+        return parameters;
+    }
 }
