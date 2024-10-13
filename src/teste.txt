@@ -21,7 +21,7 @@ class Pessoa
  y = new Base
  return y
  end-method
- method comparisonTest(x)
+ method comparisonTest(x,a,b)
                   vars result
                   begin
                     if x gt self.num then

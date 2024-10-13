@@ -18,19 +18,34 @@ public class Gerador {
 
     public static MethodBody gerarMethodBody(String methodBody) {
         MethodBody method =null;
+        boolean dentroIf = false;
         for(String line : methodBody.split("\n")){
-            int dentroIf = 0;
-            if(line.trim().startsWith("if")){
-                dentroIf++;
-                Pattern ifPattern = Pattern.compile("(?s)\\bif\\b.*?\\bend-if\\b");
-                Matcher ifMatcher = ifPattern.matcher(methodBody);
+            if(line.contains("end-if")) dentroIf = false;
+            else{
+                if(!dentroIf){
+                    if(line.trim().startsWith("if")){
+                        dentroIf = true;
+                        Pattern ifPattern = Pattern.compile("(?s)\\bif\\b.*?\\bend-if\\b");
+                        Matcher ifMatcher = ifPattern.matcher(methodBody);
 
-                if(ifMatcher.find()) {
-                    If ifStatement = gerarIf(ifMatcher.group());
+                        if(ifMatcher.find()) {
+                            If ifStatement = gerarIf(ifMatcher.group());
+
+
+                        }
+                    }
                 }
-
-
+//                else if (line.contains("return")) {
+//                    statements.add(processLineReturn(line));
+//                }
+//                else if (line.contains("=")) {
+//                    statements.add(processLineAttribution(line));
+//                }
+//                else if(line.contains("(")){
+//                    statements.add(processMethodCall(line));
+//                }
             }
+
 
         }
         return method;
@@ -53,7 +68,7 @@ public class Gerador {
         String ifThenBody = texto.split("then")[1].split("else")[0];
         String ifElseBody = texto.split("else")[1];
 
-        IfPai = new If(nomeEsquerda, comparador, nomeDireita, thenStmts, elseStmts);
+
 
         for(String line : ifThenBody.split("\n")){
 
@@ -62,6 +77,9 @@ public class Gerador {
             }
 
         }
+
+        IfPai = new If(nomeEsquerda, comparador, nomeDireita, thenStmts, elseStmts);
+
 
 
         return IfPai;
@@ -72,7 +90,8 @@ public class Gerador {
             if (line.trim().contains("prototype")) {
                 return gerarPrototype(line);
             } else if (line.trim().contains("(") && line.trim().contains(")") && !line.trim().contains("=")) {
-                return (IfStmt) gerarMethodCall(line);
+                MethodCall methodCall = gerarMethodCall(line);
+                return new MethodCallIfStmt(methodCall);
             } else if (line.trim().startsWith("return")) {
                 return gerarReturn(line);
             }
@@ -102,22 +121,24 @@ public class Gerador {
             Nomes nome = new Nomes(separado[0]);
             Attr attr = gerarLinhaAttr(separado[1]);
             attr.setLhs(new Lhs(nome));
-            if(attr.getArg() instanceof MethodCallArg){
-                MethodCallArg arg = (MethodCallArg) attr.getArg();
-                MethodCall method = (MethodCall) arg.getMethodCall();
-
-                System.out.println(attr.getLhs().getName().getNome() + " = " + method.getNomeMethod() );
-            }
-            if(attr.getArg() instanceof NameArg){
-                NameArg arg = (NameArg) attr.getArg();
-                System.out.println(attr.getLhs().getName().getNome() + " = " + arg.getNome().getNome() );
-            }
-            if(attr.getArg() instanceof NumberArg) {
-                NumberArg arg = (NumberArg) attr.getArg();
-                System.out.println(attr.getLhs().getName().getNome() + " = " + arg.getNumber().getNumero());
-            }
-
-
+            AttrIfStmt attrIfStmt = new AttrIfStmt(attr);
+            return attrIfStmt;
+//            if(attr.getArg() instanceof MethodCallArg){
+//                MethodCallArg arg = (MethodCallArg) attr.getArg();
+//                MethodCall method = arg.getMethodCall();
+//
+//                System.out.println(attr.getLhs().getName().getNome() + " = " + method.getNomeMethod().getNome() + "()");
+//            }
+//            if(attr.getArg() instanceof NameArg){
+//                NameArg arg = (NameArg) attr.getArg();
+//                System.out.println(attr.getLhs().getName().getNome() + " = " + arg.getNome().getNome() );
+//            }
+//            if(attr.getArg() instanceof NumberArg) {
+//                NumberArg arg = (NumberArg) attr.getArg();
+//                System.out.println(attr.getLhs().getName().getNome() + " = " + arg.getNumber().getNumero());
+//            }
+//
+//
         }
 
 
@@ -140,7 +161,6 @@ public class Gerador {
             return new Attr(arg);
 
 
-
         }
 
     }
@@ -148,7 +168,7 @@ public class Gerador {
     private static Arg gerarArg(String linha) {
         if(linha.trim().contains("(") && linha.trim().contains(")")){
 
-            CallMethod methodCall = gerarMethodCall(linha);
+            MethodCall methodCall = gerarMethodCall(linha);
             return new MethodCallArg(methodCall);
         }
         else if(linha.trim().contains(".")){
@@ -188,7 +208,7 @@ public class Gerador {
         return ifStmt;
     }
 
-    private static CallMethod gerarMethodCall(String line) {
+    private static MethodCall  gerarMethodCall(String line) {
         String[] formated = line.trim().split("\\(");
         String[] params = formated[1].replace(")", "").split(",");
         List<Nomes> parametros = new ArrayList<>();
@@ -201,9 +221,8 @@ public class Gerador {
 
 
         MethodCall methodCall = new MethodCall(new Nomes(partes[0]), new Nomes(partes[1]), new NomesLista(parametros));
-        CallMethod callMethod = new MethodCallIfStmt(methodCall);
         methodCall.append_result();
-        return  callMethod;
+        return  methodCall;
 
 
     }

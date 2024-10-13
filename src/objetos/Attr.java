@@ -8,7 +8,7 @@ public class Attr {
     private Lhs lhs;
     private Arg arg; // para o primeiro formato
     private ArgBin leftArgBin;
-    private Op op;
+    private String op;
     private ArgBin rightArgBin;
 
     public Attr(Lhs lhs, Arg arg) {
@@ -16,7 +16,7 @@ public class Attr {
         this.arg = arg;
     }
 
-    public Attr(Lhs lhs, ArgBin leftArgBin, Op op, ArgBin rightArgBin) {
+    public Attr(Lhs lhs, ArgBin leftArgBin, String op, ArgBin rightArgBin) {
         this.lhs = lhs;
         this.leftArgBin = leftArgBin;
         this.op = op;
@@ -26,11 +26,15 @@ public class Attr {
 
 
     public Attr(Nomes nomeEsquerdo, String op, Nomes nomeDireito) {
+        this.lhs = new Lhs(nomeEsquerdo);
+        this.leftArgBin = new ArgBin(nomeEsquerdo);
+        this.op = op;
+        this.rightArgBin = new ArgBin(nomeDireito);
     }
 
     public Attr(Arg arg) {
+        this.arg = arg;
     }
-
 
     public Lhs getLhs() {
         return lhs;
@@ -56,11 +60,11 @@ public class Attr {
         this.leftArgBin = leftArgBin;
     }
 
-    public Op getOp() {
+    public String getOp() {
         return op;
     }
 
-    public void setOp(Op op) {
+    public void setOp(String op) {
         this.op = op;
     }
 

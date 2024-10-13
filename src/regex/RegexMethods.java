@@ -20,7 +20,20 @@ public class RegexMethods {
 
     public static void pegaVars(String blocos, List<String> vars) {
         for(String line : blocos.split("\n")){
+            if(line.trim().startsWith("method")){
+                break;
+
+            }
             if(line.trim().startsWith("vars")){
+                vars.add(line);
+
+            }
+        }
+    }
+    public static void pegaVarsMetodo(String blocos, List<String> vars) {
+        for(String line : blocos.split("\n")){
+            boolean metodo = line.trim().startsWith("method");
+            if(line.trim().startsWith("vars") && metodo){
                 vars.add(line);
 
             }

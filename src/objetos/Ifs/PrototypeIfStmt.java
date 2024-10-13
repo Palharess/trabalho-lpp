@@ -38,4 +38,20 @@ public class PrototypeIfStmt extends IfStmt {
             System.err.format("IOException: %s%n", e);
         }
     }
+
+    public Nomes getNome() {
+        return nome;
+    }
+
+    public void setNome(Nomes nome) {
+        this.nome = nome;
+    }
+
+    public Nomes getValor() {
+        return valor;
+    }
+
+    public void setValor(Nomes valor) {
+        this.valor = valor;
+    }
 }
