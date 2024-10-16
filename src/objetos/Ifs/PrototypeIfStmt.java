@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import static main.Main.addLinha;
+
 public class PrototypeIfStmt extends IfStmt {
     private Nomes nome;
     private Nomes valor;
@@ -19,24 +21,9 @@ public class PrototypeIfStmt extends IfStmt {
     }
 
     public void append_result() {
-        String newLine = this.nome.getNome() + "_.prototype " + "= " + valor.getNome() + "\n";
-//        System.out.println(newLine);
-//        try {
-//            Files.write(Paths.get("./resultado.txt"), newLine.getBytes(), StandardOpenOption.APPEND);
-//        } catch ( IOException e) {
-//            System.err.println("Error appending to file: " + e.getMessage());
-//        }
+        String newLine = "load " + this.nome.getNome() + "\nload " + valor.getNome() + "\nset _.prototype";
 
-        try (FileWriter fw = new FileWriter("src/resultado.txt", true);
-             BufferedWriter bw = new BufferedWriter(fw)) {
-
-            bw.write(newLine);
-            bw.newLine();
-            System.out.println("Linha adicionada com sucesso!");
-
-        } catch (IOException e) {
-            System.err.format("IOException: %s%n", e);
-        }
+        addLinha(newLine);
     }
 
     public Nomes getNome() {

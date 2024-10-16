@@ -49,28 +49,13 @@ public class Main {
 
 
             pegaVars(blocos, classVars);
-            String nomeClasse = blocos.split("\n")[0].split("class")[1].trim();
-            String newLine = "class " + nomeClasse;
-            for(String var : classVars){
-                newLine += "\n" + var;
-            }
-            addLinha(newLine);
+            addClass(blocos, classVars);
+            String newLine;
             int i = 0;
             for(String metodo : metodos){
                 blocos = blocos.replace(metodo, "");
 
-                String nomeMetodo = metodo.split("\\(")[0].split("method")[1].trim();
-                newLine = "method " + nomeMetodo +"(";
-                pegaParametrosMetodo(metodo, metodosParams);
-                if(metodosParams.size() > 0){
-                    newLine += metodosParams.get(0);
-                    for(int j = 1; j < metodosParams.size(); j++){
-                        newLine += ", " + metodosParams.get(j);
-                    }
-                }
-                newLine += ")";
-                addLinha(newLine);
-                metodosParams.clear();
+                addMethodLinha(metodo, metodosParams);
 
                 List<String> metodoVars = new ArrayList<>();
                 pegaVarsMetodo(metodo, metodoVars);
@@ -82,6 +67,8 @@ public class Main {
                 pegaParametrosMetodo(metodo, metodoParams);
 
                 List<String> metodoBody = pegaBlocos("begin[\\s\\S]+?end-method", metodo);
+                newLine = "begin";
+                addLinha(newLine);
 
 
                 MethodBody methodBody = Gerador.gerarMethodBody(metodoBody.get(0));
@@ -90,11 +77,15 @@ public class Main {
                 i++;
 
 
-
+            newLine = "end-method";
+            addLinha(newLine);
 
             }
 
 
+
+            String terminou = "end-class";
+            addLinha(terminou);
 
         }
 
@@ -114,7 +105,32 @@ public class Main {
 //        mainVars.forEach(System.out::println);
     }
 
-    private static void addLinha(String newLine) {
+    public static void addMethodLinha(String metodo, List<String> metodosParams) {
+        String newLine;
+        String nomeMetodo = metodo.split("\\(")[0].split("method")[1].trim();
+        newLine = "method " + nomeMetodo +"(";
+        pegaParametrosMetodo(metodo, metodosParams);
+        if(metodosParams.size() > 0){
+            newLine += metodosParams.get(0);
+            for(int j = 1; j < metodosParams.size(); j++){
+                newLine += ", " + metodosParams.get(j);
+            }
+        }
+        newLine += ")";
+        addLinha(newLine);
+        metodosParams.clear();
+    }
+
+    public static void addClass(String blocos, List<String> classVars) {
+        String nomeClasse = blocos.split("\n")[0].split("class")[1].trim();
+        String newLine = "class " + nomeClasse;
+        for(String var : classVars){
+            newLine += "\n" + var;
+        }
+        addLinha(newLine);
+    }
+
+    public static void addLinha(String newLine) {
         try (FileWriter fw = new FileWriter("src/resultado.txt", true);
              BufferedWriter bw = new BufferedWriter(fw)) {
 

@@ -1,11 +1,51 @@
 class Base
  vars id
 method showid()
+ vars x
+begin
+const 10
+const 10
+const 5
+add
+load x
+load io
+call print
+const 0
+load x
+ret
+end-method
+end-class
 class Pessoa
  vars num
 method calc(x)
+ vars y, z
+begin
+add
+load y
+load io
+call print
+load y
+ret
+end-method
 method comparisonTest(x, a, b)
-io.print(1, 2, 3);
-x_.prototype = base
-
-objeto.teste();
+                  vars result
+begin
+if 7
+load 1
+load 2
+load 3
+load io
+call print
+load x
+load base
+set _.prototype
+add
+load objeto
+call teste
+const 2
+load io
+call print
+load result
+ret
+end-method
+end-class

@@ -4,12 +4,14 @@ import enums.Op;
 import objetos.args.Arg;
 import objetos.args.ArgBin;
 
+import static main.Main.addLinha;
+
 public class Attr {
     private Lhs lhs;
     private Arg arg; // para o primeiro formato
-    private ArgBin leftArgBin;
+    private Arg leftArgBin;
     private String op;
-    private ArgBin rightArgBin;
+    private Arg rightArgBin;
 
     public Attr(Lhs lhs, Arg arg) {
         this.lhs = lhs;
@@ -23,6 +25,12 @@ public class Attr {
         this.rightArgBin = rightArgBin;
     }
 
+    public Attr( Arg leftArgBin, String op, Arg rightArgBin) {
+        this.leftArgBin = leftArgBin;
+        this.op = op;
+        this.rightArgBin = rightArgBin;
+    }
+
 
 
     public Attr(Nomes nomeEsquerdo, String op, Nomes nomeDireito) {
@@ -30,6 +38,7 @@ public class Attr {
         this.leftArgBin = new ArgBin(nomeEsquerdo);
         this.op = op;
         this.rightArgBin = new ArgBin(nomeDireito);
+
     }
 
     public Attr(Arg arg) {
@@ -52,9 +61,7 @@ public class Attr {
         this.arg = arg;
     }
 
-    public ArgBin getLeftArgBin() {
-        return leftArgBin;
-    }
+
 
     public void setLeftArgBin(ArgBin leftArgBin) {
         this.leftArgBin = leftArgBin;
@@ -68,11 +75,24 @@ public class Attr {
         this.op = op;
     }
 
-    public ArgBin getRightArgBin() {
-        return rightArgBin;
-    }
+
 
     public void setRightArgBin(ArgBin rightArgBin) {
         this.rightArgBin = rightArgBin;
+    }
+
+    public void append_result() {
+        if(this.op.equals("+")){
+            addLinha("add");
+        }
+        else if(this.op.equals("-")){
+            addLinha("sub");
+        }
+        else if(this.op.equals("*")){
+            addLinha("mul");
+        }
+        else if(this.op.equals("/")){
+            addLinha("div");
+        }
     }
 }

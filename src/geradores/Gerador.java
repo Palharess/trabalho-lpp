@@ -10,40 +10,44 @@ import objetos.Methods.MethodCall;
 import objetos.args.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static main.Main.addLinha;
 
 public class Gerador {
 
     public static MethodBody gerarMethodBody(String methodBody) {
         MethodBody method =null;
         boolean dentroIf = false;
+        int contador = 0;
         for(String line : methodBody.split("\n")){
-            if(line.contains("end-if")) dentroIf = false;
+            if(line.contains("end-if")){
+                dentroIf = false;
+                contador = 0;
+            }
+            else if(line.trim().startsWith("if")) dentroIf = true;
             else{
-                if(!dentroIf){
-                    if(line.trim().startsWith("if")){
-                        dentroIf = true;
-                        Pattern ifPattern = Pattern.compile("(?s)\\bif\\b.*?\\bend-if\\b");
-                        Matcher ifMatcher = ifPattern.matcher(methodBody);
-
-                        if(ifMatcher.find()) {
-                            If ifStatement = gerarIf(ifMatcher.group());
-
-
-                        }
+                if(dentroIf && contador == 0){
+                    contador++;
+                    Pattern ifPattern = Pattern.compile("(?s)\\bif\\b.*?\\bend-if\\b");
+                    Matcher ifMatcher = ifPattern.matcher(methodBody);
+                    if(ifMatcher.find()) {
+                        If ifStatement = gerarIf(ifMatcher.group());
                     }
+
                 }
-//                else if (line.contains("return")) {
-//                    statements.add(processLineReturn(line));
-//                }
-//                else if (line.contains("=")) {
-//                    statements.add(processLineAttribution(line));
-//                }
-//                else if(line.contains("(")){
-//                    statements.add(processMethodCall(line));
-//                }
+                else if (line.contains("return") && contador == 0) {
+                    gerarReturn(line);
+                }
+                else if (line.contains("=") && contador == 0) {
+                    gerarAtribuicao(line);
+                }
+                else if(line.contains("(") && line.contains(")") && !line.contains("=") && contador == 0){
+                    gerarMethodCall(line);
+                }
             }
 
 
@@ -68,6 +72,15 @@ public class Gerador {
         String ifThenBody = texto.split("then")[1].split("else")[0];
         String ifElseBody = texto.split("else")[1];
 
+        //aquiaquiaqui
+        int tamanho = 0;
+        for(String line: ifThenBody.split("\n")){
+          if((line.trim().length() > 2)) tamanho++;
+
+        }
+        String newLine = "if " + tamanho;
+        addLinha(newLine);
+
 
 
         for(String line : ifThenBody.split("\n")){
@@ -76,6 +89,12 @@ public class Gerador {
                 thenStmts.add(gerarIfStmt(line));
             }
 
+        }
+
+        for (String line : ifElseBody.split("\n")) {
+            if (!line.trim().isEmpty() && !line.trim().startsWith("else") && !line.trim().startsWith("end-if")){
+                elseStmts.add(gerarIfStmt(line));
+            }
         }
 
         IfPai = new If(nomeEsquerda, comparador, nomeDireita, thenStmts, elseStmts);
@@ -114,6 +133,7 @@ public class Gerador {
             Attr attr = gerarLinhaAttr(separado[1]);
             AttrIfStmt attrIfStmt = new AttrIfStmt(attr);
             attrIfStmt.getAttr().setLhs(lhs);
+            attrIfStmt.append_result();
 
         }
         else{
@@ -153,7 +173,12 @@ public class Gerador {
             Nomes nomeEsquerdo = new Nomes(split[0]);
             String op = (split[1]);
             Nomes nomeDireito = new Nomes(split[2]);
-            Attr attr = new Attr(nomeEsquerdo, op, nomeDireito);
+            Arg argGerado1 = gerarArg(split[0]);
+            Arg argGerado2 = gerarArg(split[2]);
+
+            Attr attr = new Attr(argGerado1, op, argGerado2);
+            //como foi soma tem que mostrar
+            attr.append_result();
             return attr;
         }
         else{
@@ -213,6 +238,9 @@ public class Gerador {
         String[] params = formated[1].replace(")", "").split(",");
         List<Nomes> parametros = new ArrayList<>();
         for (String param : params) {
+            if(param.equals("")){
+                continue;
+            }
             parametros.add(new Nomes(param));
 
         }

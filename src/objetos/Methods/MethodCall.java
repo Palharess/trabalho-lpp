@@ -8,6 +8,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static main.Main.addLinha;
+
 public class MethodCall implements CallMethod {
     private Nomes nomeObjetos;
     private Nomes nomeMethod;
@@ -26,28 +28,17 @@ public class MethodCall implements CallMethod {
     }
 
     public void append_result() {
-        String newLine;
+        String newLine = "";
         if(this.parameters.getNomes().isEmpty()){
-            newLine = this.nomeObjetos.getNome() + "." + this.nomeMethod.getNome() + "()" + "\n";
+            newLine = "load " + this.nomeObjetos.getNome() + "\ncall " + this.nomeMethod.getNome();
         } else {
-            newLine = this.nomeObjetos.getNome() + "." + this.nomeMethod.getNome() + "(";
-            for (Nomes nome : this.parameters.getNomes()) {
-                newLine += nome.getNome() + ", ";
+            for(Nomes nome : this.parameters.getNomes()){
+                newLine += "load " + nome.getNome() + "\n";
             }
-            newLine = newLine.substring(0, newLine.length() - 2);
-            newLine += ");";
+            newLine += "load " + this.nomeObjetos.getNome() + "\ncall " + this.nomeMethod.getNome();
         }
 
-        try (FileWriter fw = new FileWriter("src/resultado.txt", true);
-             BufferedWriter bw = new BufferedWriter(fw)) {
-
-            bw.write(newLine);
-            bw.newLine();
-            System.out.println("Linha adicionada com sucesso!");
-
-        } catch (IOException e) {
-            System.err.format("IOException: %s%n", e);
-        }
+        addLinha(newLine);
     }
 
     public Nomes getNomeObjetos() {

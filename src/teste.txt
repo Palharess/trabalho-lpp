@@ -4,6 +4,8 @@ class Base
  vars x
  begin
  self.id = 10
+ objeto.id = novo.a
+ self.id = 10 + 5
  x = self.id
  io.print(x)
  x = 0

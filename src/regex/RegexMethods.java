@@ -32,8 +32,11 @@ public class RegexMethods {
     }
     public static void pegaVarsMetodo(String blocos, List<String> vars) {
         for(String line : blocos.split("\n")){
-            boolean metodo = line.trim().startsWith("method");
-            if(line.trim().startsWith("vars") && metodo){
+            if(line.trim().startsWith("begin")){
+               break;
+
+            }
+            if(line.trim().startsWith("vars")){
                 vars.add(line);
 
             }
@@ -49,6 +52,8 @@ public class RegexMethods {
             }
         }
     }
+
+
 
 
 }
