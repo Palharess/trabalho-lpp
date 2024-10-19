@@ -2,11 +2,19 @@ package objetos.args;
 
 import objetos.Nomes;
 
+import static main.Main.addLinha;
+
 public class NameArg extends Arg{
     private Nomes nome, nome2; //name.name ou name
 
     public NameArg(Nomes name) {
         this.nome = name;
+        append_result();
+    }
+
+    private void append_result() {
+        String newLine = "load " + this.nome.getNome();
+        addLinha(newLine);
     }
 
     public NameArg(Nomes name, Nomes nomes2) {

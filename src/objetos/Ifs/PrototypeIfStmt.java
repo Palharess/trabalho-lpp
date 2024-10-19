@@ -1,5 +1,6 @@
 package objetos.Ifs;
 
+import geradores.Gerador;
 import objetos.Nomes;
 
 import java.io.BufferedWriter;
@@ -22,6 +23,7 @@ public class PrototypeIfStmt extends IfStmt {
 
     public void append_result() {
         String newLine = "load " + this.nome.getNome() + "\nload " + valor.getNome() + "\nset _.prototype";
+        Gerador.linhas += 3;
 
         addLinha(newLine);
     }

@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import static main.Main.addLinha;
 
 public class Gerador {
+    public static int linhas = 0;
 
     public static MethodBody gerarMethodBody(String methodBody) {
         MethodBody method =null;
@@ -91,6 +92,15 @@ public class Gerador {
 
         }
 
+        tamanho = -1;
+        for(String line: ifElseBody.split("\n")){
+            if((line.trim().length() > 2)) tamanho++;
+
+        }
+        newLine = "else " + tamanho;
+        addLinha(newLine);
+
+
         for (String line : ifElseBody.split("\n")) {
             if (!line.trim().isEmpty() && !line.trim().startsWith("else") && !line.trim().startsWith("end-if")){
                 elseStmts.add(gerarIfStmt(line));
@@ -131,9 +141,9 @@ public class Gerador {
             Nomes atributo = new Nomes(partes[1]);
             Lhs lhs = new Lhs(nome, atributo);
             Attr attr = gerarLinhaAttr(separado[1]);
-            AttrIfStmt attrIfStmt = new AttrIfStmt(attr);
-            attrIfStmt.getAttr().setLhs(lhs);
-            attrIfStmt.append_result();
+            attr.setLhs(lhs);
+            attr.append_result_store(1);
+
 
         }
         else{
@@ -142,6 +152,7 @@ public class Gerador {
             Attr attr = gerarLinhaAttr(separado[1]);
             attr.setLhs(new Lhs(nome));
             AttrIfStmt attrIfStmt = new AttrIfStmt(attr);
+            addLinha("store " + nome.getNome());
             return attrIfStmt;
 //            if(attr.getArg() instanceof MethodCallArg){
 //                MethodCallArg arg = (MethodCallArg) attr.getArg();
@@ -201,6 +212,7 @@ public class Gerador {
             Nomes nome = new Nomes(partes[0]);
             Nomes atributo = new Nomes(partes[1]);
             NameArg nameArg = new NameArg(nome, atributo);
+            addLinha("load " + nome.getNome() + "\nget " + atributo.getNome());
             return nameArg;
         }
 
@@ -208,6 +220,7 @@ public class Gerador {
             String[] split = linha.trim().split(" ");
             Nomes nome = new Nomes(split[1]);
             ObjectCreationArg objectCreationArg = new ObjectCreationArg(new ObjectCreation(nome));
+            addLinha("new " + nome.getNome());
             return objectCreationArg;
 
         }

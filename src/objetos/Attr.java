@@ -95,4 +95,13 @@ public class Attr {
             addLinha("div");
         }
     }
+
+    public void append_result_store(int tipo) {
+        //
+        if(tipo == 1){
+            addLinha("load " + this.lhs.getName().getNome());
+            addLinha("set " + this.lhs.getNomePonto().getNome());
+
+        }
+    }
 }
