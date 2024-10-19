@@ -1,5 +1,6 @@
 package objetos.Methods;
 
+import geradores.Gerador;
 import interfaces.CallMethod;
 import objetos.Nomes;
 import objetos.NomesLista;
@@ -31,11 +32,14 @@ public class MethodCall implements CallMethod {
         String newLine = "";
         if(this.parameters.getNomes().isEmpty()){
             newLine = "load " + this.nomeObjetos.getNome() + "\ncall " + this.nomeMethod.getNome();
+            Gerador.linhas += 2;
         } else {
             for(Nomes nome : this.parameters.getNomes()){
                 newLine += "load " + nome.getNome() + "\n";
+                Gerador.linhas += 1;
             }
             newLine += "load " + this.nomeObjetos.getNome() + "\ncall " + this.nomeMethod.getNome();
+            Gerador.linhas += 2;
         }
 
         addLinha(newLine);

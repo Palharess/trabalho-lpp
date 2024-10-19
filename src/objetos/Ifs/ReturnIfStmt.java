@@ -1,5 +1,6 @@
 package objetos.Ifs;
 
+import geradores.Gerador;
 import objetos.Nomes;
 
 import java.io.BufferedWriter;
@@ -18,7 +19,8 @@ public class ReturnIfStmt extends  IfStmt {
 
     public void append_result() {
         String newLine = "return " + this.nome.getNome() + ";";
-        newLine = "load " + this.nome.getNome() + "\nret";
+//        newLine = "load " + this.nome.getNome() + "\nret";
+        Gerador.linhas += 2;
         addLinha(newLine);
     }
 

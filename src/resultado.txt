@@ -1,82 +1,84 @@
-class Base
- vars id
-method showid()
- vars x
+class Animal
+                 vars name, age
+method speak()
+                 vars n
 begin
-const 10
 load  self
-set id 
-load  novo
-get a
-load  objeto
-set id 
-const 10
-const 5
-add
-load  self
-set id 
-load  self
-get id
-store  x 
-load x
+get name
+store                  n 
+load n
 load io
 call print
-const 0
-store  x 
-load x
+load 0
 ret
 end-method
-end-class
-class Pessoa
- vars num
-method calc(x)
- vars y, z
+method grow()
+                 vars a, one
 begin
 load  self
-get num
-store  z 
-load x
-load z
-add
-store  y 
-load y
-load io
-call print
-new Base
-store  y 
-load y
-ret
-end-method
-method comparisonTest(x, a, b)
-                  vars result
-begin
-if 7
-load 1
-load 2
-load 3
-load io
-call print
-load x
-load base
-set _.prototype
-load teste
+get age
+store                  a 
+const 1
+store                  one 
 load a
+load one
 add
-load                       nome
-set nome 
-load objeto
-call teste
-store                       f 
-new Base
-store                       b 
-load asad
-store                       b 
-const 2
-store                       b 
-else 1
-load io
-call print
-load result
+store                  a 
+load a
+load                  self
+set age 
+load self.age
 ret
 end-method
 end-class
+class Dog
+                 vars breed
+method bark()
+                 vars n
+begin
+const 100
+store                  n 
+load n
+load io
+call print
+load 0
+ret
+end-method
+end-class
+class Cat
+                 vars color
+method meow()
+                 vars n
+begin
+const 200
+store                  n 
+load n
+load io
+call print
+load 0
+ret
+end-method
+end-class
+main()
+                vars a, d, c, num, res, temp
+begin
+new Animal
+store                  a 
+new Dog
+store                  d 
+new Cat
+store                  c 
+const 10
+load                  a
+set name 
+const 5
+load                  a
+set age 
+load a
+load                  d
+set _prototype 
+load a
+load                  c
+set _prototype 
+const 1
+store                  num 

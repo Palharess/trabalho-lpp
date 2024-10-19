@@ -103,6 +103,22 @@ public class Main {
 //            }
 //        }
 //        mainVars.forEach(System.out::println);
+
+        System.out.println(mainVars);
+        //aqui começa o main
+        addLinha("main()");
+        for(String var : mainVars){
+            addLinha(var);
+        }
+        List<String> mainBody = pegaBlocos("begin[\\s\\S]+?end", main.get(0));
+        addLinha("begin");
+        for(String linha: mainBody){
+            Gerador.gerarMethodBody(linha);
+        }
+
+
+
+
     }
 
     public static void addMethodLinha(String metodo, List<String> metodosParams) {
@@ -130,14 +146,36 @@ public class Main {
         addLinha(newLine);
     }
 
-    public static void addLinha(String newLine) {
+    public static int addLinha(String newLine) {
         try (FileWriter fw = new FileWriter("src/resultado.txt", true);
              BufferedWriter bw = new BufferedWriter(fw)) {
 
+
             bw.write(newLine);
             bw.newLine();
+            List<String> lines = Files.readAllLines(Paths.get("src/resultado.txt"));
+            int currentLineCount = lines.size();
             System.out.println("Linha adicionada com sucesso!");
+            return currentLineCount;
 
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+            return -1;
+        }
+    }
+
+    public static void updateLineByIndex(String filePath, int lineIndex, String newLineContent) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filePath));
+
+            if (lineIndex >= 0 && lineIndex < lines.size()) {
+                lines.set(lineIndex, newLineContent);
+
+                Files.write(Paths.get(filePath), lines);
+                System.out.println("Line at index " + lineIndex + " updated successfully.");
+            } else {
+                System.out.println("Invalid line index: " + lineIndex);
+            }
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);
         }

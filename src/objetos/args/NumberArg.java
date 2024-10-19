@@ -1,5 +1,6 @@
 package objetos.args;
 
+import geradores.Gerador;
 import objetos.Numeros;
 
 import static main.Main.addLinha;
@@ -20,6 +21,7 @@ public class NumberArg extends Arg{
 
     public void append_result(){
         String newLine = "const " + this.number.getNumero();
+        Gerador.linhas += 1;
         addLinha(newLine);
     }
 }

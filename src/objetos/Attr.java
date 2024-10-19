@@ -1,6 +1,7 @@
 package objetos;
 
 import enums.Op;
+import geradores.Gerador;
 import objetos.args.Arg;
 import objetos.args.ArgBin;
 
@@ -94,6 +95,7 @@ public class Attr {
         else if(this.op.equals("/")){
             addLinha("div");
         }
+        Gerador.linhas += 1;
     }
 
     public void append_result_store(int tipo) {
@@ -101,6 +103,7 @@ public class Attr {
         if(tipo == 1){
             addLinha("load " + this.lhs.getName().getNome());
             addLinha("set " + this.lhs.getNomePonto().getNome());
+            Gerador.linhas += 2;
 
         }
     }

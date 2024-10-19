@@ -1,5 +1,6 @@
 package objetos.args;
 
+import geradores.Gerador;
 import objetos.Nomes;
 
 import static main.Main.addLinha;
@@ -14,6 +15,7 @@ public class NameArg extends Arg{
 
     private void append_result() {
         String newLine = "load " + this.nome.getNome();
+        Gerador.linhas += 1;
         addLinha(newLine);
     }
 
