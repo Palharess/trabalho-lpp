@@ -110,11 +110,13 @@ public class Main {
         for(String var : mainVars){
             addLinha(var);
         }
-        List<String> mainBody = pegaBlocos("begin[\\s\\S]+?end", main.get(0));
+        List<String> mainBody = pegaBlocos("begin[\\s\\S]+end", main.get(0));
+        System.out.println(mainBody.getFirst());
         addLinha("begin");
         for(String linha: mainBody){
             Gerador.gerarMethodBody(linha);
         }
+        addLinha("end");
 
 
 

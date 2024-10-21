@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static geradores.Gerador.gerarArg;
 import static main.Main.addLinha;
 
 public class ReturnIfStmt extends  IfStmt {
@@ -18,10 +19,11 @@ public class ReturnIfStmt extends  IfStmt {
 
 
     public void append_result() {
-        String newLine = "return " + this.nome.getNome() + ";";
+        String newLine;
 //        newLine = "load " + this.nome.getNome() + "\nret";
-        Gerador.linhas += 2;
-        addLinha(newLine);
+        gerarArg(this.nome.getNome());
+        addLinha("ret");
+        Gerador.linhas += 1;
     }
 
 }

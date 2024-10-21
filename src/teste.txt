@@ -65,12 +65,6 @@ class Animal
                   d.age = 3
                   res = d.grow()
                   io.print(res)
-                 else
-                  c.color = 40
-                  c.name = 50
-                  c.age = 2
-                  res = c.grow()
-                  io.print(res)
                  end-if
 
                  a = new Animal

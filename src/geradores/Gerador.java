@@ -107,6 +107,7 @@ public class Gerador {
             }
         }
         updateLineByIndex("src/resultado.txt", elseIndex, "else " + Gerador.linhas);
+        addLinha("end-if");
 
         IfPai = new If(nomeEsquerda, comparador, nomeDireita, thenStmts, elseStmts);
 
@@ -203,7 +204,7 @@ public class Gerador {
 
     }
 
-    private static Arg gerarArg(String linha) {
+    public static Arg gerarArg(String linha) {
         if(linha.trim().contains("(") && linha.trim().contains(")")){
 
             MethodCall methodCall = gerarMethodCall(linha);
