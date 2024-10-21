@@ -42,6 +42,11 @@ public class MethodCall implements CallMethod {
             Gerador.linhas += 2;
         }
 
+        if(!Gerador.metodoAtribuido){
+            newLine += "\npop";
+            Gerador.linhas += 1;
+        }
+
         addLinha(newLine);
     }
 

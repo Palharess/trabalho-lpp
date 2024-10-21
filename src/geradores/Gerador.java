@@ -20,6 +20,7 @@ import static main.Main.updateLineByIndex;
 
 public class Gerador {
     public static int linhas = 0;
+    public static boolean metodoAtribuido = false;
 
     public static MethodBody gerarMethodBody(String methodBody) {
         MethodBody method =null;
@@ -71,8 +72,13 @@ public class Gerador {
         nomeEsquerda = new Nomes(split[1]);
         nomeDireita = new Nomes(split[3]);
 
-        String ifThenBody = texto.split("then")[1].split("else")[0];
-        String ifElseBody = texto.split("else")[1];
+        String ifThenBody = texto.split("then")[1].split("end-if")[0];
+        String ifElseBody = "";
+        if(ifThenBody.contains("else")){
+            ifElseBody = texto.split("else")[1];
+            ifThenBody = ifThenBody.split("else")[0];
+        }
+
 
         ///processar if header
         gerarArg(nomeEsquerda.getNome());
@@ -97,16 +103,21 @@ public class Gerador {
         }
         updateLineByIndex("src/resultado.txt", ifIndex, "if " + Gerador.linhas);
 
-        newLine = "else " + -1;
-        int elseIndex = addLinha(newLine);
 
-        Gerador.linhas = 0;
-        for (String line : ifElseBody.split("\n")) {
-            if (!line.trim().isEmpty() && !line.trim().startsWith("else") && !line.trim().startsWith("end-if")){
-                elseStmts.add(gerarIfStmt(line));
+        if(!(ifElseBody.isEmpty())){
+
+
+            newLine = "else " + -1;
+            int elseIndex = addLinha(newLine);
+
+            Gerador.linhas = 0;
+            for (String line : ifElseBody.split("\n")) {
+                if (!line.trim().isEmpty() && !line.trim().startsWith("else") && !line.trim().startsWith("end-if")){
+                    elseStmts.add(gerarIfStmt(line));
+                }
             }
+            updateLineByIndex("src/resultado.txt", elseIndex, "else " + Gerador.linhas);
         }
-        updateLineByIndex("src/resultado.txt", elseIndex, "else " + Gerador.linhas);
         addLinha("end-if");
 
         IfPai = new If(nomeEsquerda, comparador, nomeDireita, thenStmts, elseStmts);
@@ -136,6 +147,7 @@ public class Gerador {
 
     private static AttrIfStmt gerarAtribuicao(String line) {
         String separado[] = line.split("=");
+        Gerador.metodoAtribuido = true;
 
         if(separado[0].contains(".")){ // se tiver setando att de objetp
             String[] partes = separado[0].split("\\.");
@@ -145,6 +157,7 @@ public class Gerador {
             Attr attr = gerarLinhaAttr(separado[1]);
             attr.setLhs(lhs);
             attr.append_result_store(1);
+            Gerador.metodoAtribuido = false;
 
 
         }
@@ -154,8 +167,9 @@ public class Gerador {
             Attr attr = gerarLinhaAttr(separado[1]);
             attr.setLhs(new Lhs(nome));
             AttrIfStmt attrIfStmt = new AttrIfStmt(attr);
-            addLinha("store " + nome.getNome());
+            addLinha("store " + nome.getNome().trim());
             Gerador.linhas += 1;
+            Gerador.metodoAtribuido = false;
             return attrIfStmt;
 //            if(attr.getArg() instanceof MethodCallArg){
 //                MethodCallArg arg = (MethodCallArg) attr.getArg();
@@ -215,7 +229,7 @@ public class Gerador {
             Nomes nome = new Nomes(partes[0]);
             Nomes atributo = new Nomes(partes[1]);
             NameArg nameArg = new NameArg(nome, atributo);
-            addLinha("load " + nome.getNome() + "\nget " + atributo.getNome());
+            addLinha("load " + nome.getNome().trim() + "\nget " + atributo.getNome().trim());
             Gerador.linhas += 2;
             return nameArg;
         }

@@ -143,7 +143,7 @@ public class Main {
         String nomeClasse = blocos.split("\n")[0].split("class")[1].trim();
         String newLine = "class " + nomeClasse;
         for(String var : classVars){
-            newLine += "\n" + var;
+            newLine += ("\n" + var);
         }
         addLinha(newLine);
     }

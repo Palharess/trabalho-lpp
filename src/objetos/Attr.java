@@ -101,8 +101,8 @@ public class Attr {
     public void append_result_store(int tipo) {
         //
         if(tipo == 1){
-            addLinha("load " + this.lhs.getName().getNome());
-            addLinha("set " + this.lhs.getNomePonto().getNome());
+            addLinha("load " + this.lhs.getName().getNome().trim());
+            addLinha("set " + this.lhs.getNomePonto().getNome().trim());
             Gerador.linhas += 2;
 
         }
