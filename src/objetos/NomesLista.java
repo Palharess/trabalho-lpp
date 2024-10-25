@@ -11,6 +11,7 @@ public class NomesLista {
     }
 
     public NomesLista(List<Nomes> nomes) {
+
         this.nomes = nomes;
     }
 

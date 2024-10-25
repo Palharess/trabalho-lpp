@@ -74,9 +74,11 @@ public class BoolMain {
                 String nomeMetodo = partes[1];
                 metodoAtual = new BoolMethod(nomeMetodo);
                 if (partes.length > 2 && !partes[2].isEmpty()) {
-                    String[] params = partes[2].split(",");
-                    for (String param : params) {
-                        metodoAtual.adicionarParametro(param.trim());
+                    for (int i = 2; i < partes.length; i++) {
+                        if(partes[i].contains(",")){
+                            partes[i] = partes[i].replace(",", "");
+                        }
+                        metodoAtual.adicionarParametro(partes[i].trim());
                     }
                 }
                 classeAtual.adicionarMetodo(metodoAtual);
@@ -111,6 +113,7 @@ public class BoolMain {
     }
 
     private void executarInstrucoes(List<String> instrucoes, ExecutionContext contexto) {
+        Boolean pulouIf = false;
         for (int i = 0; i < instrucoes.size(); i++) {
             String instrucao = instrucoes.get(i);
                 contadorInstrucoes++;
@@ -121,11 +124,12 @@ public class BoolMain {
                 int n = Integer.parseInt(partes[1]);
                 boolean condicao = (boolean) pilha.pop();
                 if (!condicao) {
+                    pulouIf = true;
                     i += n; // Salta 'n' instruções
                 }
             } else if (comando.equals("else")) {
                 int n = Integer.parseInt(partes[1]);
-                i += n; // Salta 'n' instruções
+                if(!pulouIf) i += n; // Salta 'n' instruções
             } else if(!comando.equals("end-if")) {
                 interpretarInstrucao(instrucao, contexto);
             }
