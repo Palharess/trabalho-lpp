@@ -2,7 +2,6 @@ class Animal
                  vars name, age
 
                  method speak()
-
                  vars n
                  begin
                  n = self.name
@@ -15,7 +14,7 @@ class Animal
                  begin
                  a = self.age
                  one = 1
-                 a = io.print()
+                 a = a + one
                  self.age = a
                  return self.age
                  end-method
@@ -61,7 +60,6 @@ class Animal
                  num = 1
 
                  if num eq 1 then
-                  d._prototype = a
                   d.breed = 20
                   d.name = 30
                   d.age = 3
