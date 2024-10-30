@@ -3,14 +3,7 @@ package objetos.Ifs;
 import geradores.Gerador;
 import objetos.Nomes;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-
-import static main.Main.addLinha;
+import static compilador.BoolCompiler.addLinha;
 
 public class PrototypeIfStmt extends IfStmt {
     private Nomes nome;

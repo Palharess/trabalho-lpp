@@ -1,4 +1,4 @@
-package main;
+package compilador;
 
 import geradores.Gerador;
 import objetos.Methods.MethodBody;
@@ -10,15 +10,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static regex.RegexMethods.*;
 
-public class Main {
+public class BoolCompiler {
+    public static String arquivoBool = null;
+    public static String arquivoBoolc = null;
 
     public static void main(String[] args) {
-        String filePath = "src/teste.txt";
+        if (args.length != 2) {
+            System.out.println("Uso: java BoolCompiler input.bool output.boolc");
+            return;
+        }
+
+        BoolCompiler.arquivoBool = args[0];
+        BoolCompiler.arquivoBoolc = args[1];
+
+
+        String filePath = arquivoBool;
         String content = "";
 
 
@@ -91,27 +100,13 @@ public class Main {
 
 
 
-//        while (classes.find()) {
-//            String classContent = classes.group();
-//            String[] classLines = classContent.split("\n");
-//
-//            for (String line : classLines) {
-//                if (line.trim().startsWith("vars")) {
-//                    classVars.add(line);
-//
-//                }
-//            }
-//        }
-//        mainVars.forEach(System.out::println);
 
-        System.out.println(mainVars);
         //aqui começa o main
         addLinha("main()");
         for(String var : mainVars){
             addLinha(var);
         }
         List<String> mainBody = pegaBlocos("begin[\\s\\S]+end", main.get(0));
-        System.out.println(mainBody.getFirst());
         addLinha("begin");
         for(String linha: mainBody){
             Gerador.gerarMethodBody(linha);
@@ -149,15 +144,14 @@ public class Main {
     }
 
     public static int addLinha(String newLine) {
-        try (FileWriter fw = new FileWriter("src/resultado.txt", true);
+        try (FileWriter fw = new FileWriter(arquivoBoolc, true);
              BufferedWriter bw = new BufferedWriter(fw)) {
 
 
             bw.write(newLine);
             bw.newLine();
-            List<String> lines = Files.readAllLines(Paths.get("src/resultado.txt"));
+            List<String> lines = Files.readAllLines(Paths.get(BoolCompiler.arquivoBoolc));
             int currentLineCount = lines.size();
-            System.out.println("Linha adicionada com sucesso!");
             return currentLineCount;
 
         } catch (IOException e) {
@@ -174,7 +168,6 @@ public class Main {
                 lines.set(lineIndex, newLineContent);
 
                 Files.write(Paths.get(filePath), lines);
-                System.out.println("Line at index " + lineIndex + " updated successfully.");
             } else {
                 System.out.println("Invalid line index: " + lineIndex);
             }

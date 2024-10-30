@@ -3,7 +3,7 @@ package objetos.args;
 import geradores.Gerador;
 import objetos.Numeros;
 
-import static main.Main.addLinha;
+import static compilador.BoolCompiler.addLinha;
 
 public class NumberArg extends Arg{
     private Numeros number;

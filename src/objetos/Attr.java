@@ -1,11 +1,10 @@
 package objetos;
 
-import enums.Op;
 import geradores.Gerador;
 import objetos.args.Arg;
 import objetos.args.ArgBin;
 
-import static main.Main.addLinha;
+import static compilador.BoolCompiler.addLinha;
 
 public class Attr {
     private Lhs lhs;

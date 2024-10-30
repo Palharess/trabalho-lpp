@@ -1,8 +1,7 @@
 package geradores;
 
+import compilador.BoolCompiler;
 import enums.Cmp;
-import enums.Op;
-import interfaces.CallMethod;
 import objetos.*;
 import objetos.Ifs.*;
 import objetos.Methods.MethodBody;
@@ -10,13 +9,12 @@ import objetos.Methods.MethodCall;
 import objetos.args.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static main.Main.addLinha;
-import static main.Main.updateLineByIndex;
+import static compilador.BoolCompiler.addLinha;
+import static compilador.BoolCompiler.updateLineByIndex;
 
 public class Gerador {
     public static int linhas = 0;
@@ -101,7 +99,7 @@ public class Gerador {
             }
 
         }
-        updateLineByIndex("src/resultado.txt", ifIndex, "if " + Gerador.linhas);
+        updateLineByIndex(BoolCompiler.arquivoBoolc, ifIndex, "if " + Gerador.linhas);
 
 
         if(!(ifElseBody.isEmpty())){
@@ -116,7 +114,7 @@ public class Gerador {
                     elseStmts.add(gerarIfStmt(line));
                 }
             }
-            updateLineByIndex("src/resultado.txt", elseIndex, "else " + Gerador.linhas);
+            updateLineByIndex(BoolCompiler.arquivoBoolc, elseIndex, "else " + Gerador.linhas);
         }
         addLinha("end-if");
 

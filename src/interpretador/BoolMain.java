@@ -9,7 +9,7 @@ public class BoolMain {
     private Deque<Object> pilha;
     private List<String> instrucoesMain;
     private List<BoolObject> objetosCriados; // Para o coletor de lixo
-    private String coletorCorAtual; // "red" ou "black"
+    private String coletorCorAtual;
     private int contadorInstrucoes;
     private Deque<ExecutionContext> pilhaContextos;
 
@@ -24,14 +24,13 @@ public class BoolMain {
         contadorInstrucoes = 0;
         pilhaContextos = new ArrayDeque<>();
 
-        // Cria o objeto 'io'
+        //io sempre existe
         criarObjetoIO();
     }
 
     private void criarObjetoIO() {
         BoolClasse ioClasse = new BoolClasse("io");
         BoolMethod printMethod = new BoolMethod("print");
-        // O método 'print' será tratado de forma especial durante a execução
         ioClasse.adicionarMetodo(printMethod);
         BoolObject ioObjeto = new BoolObject(ioClasse);
         varsGlobais.put("io", ioObjeto);
@@ -53,7 +52,7 @@ public class BoolMain {
             linha = linha.trim();
             if (linha.isEmpty()) continue;
 
-            // Identifica o estado atual baseado nas palavras-chave
+            // basicamente pega os estados pra poder adicionar no hash respectivo
             if (linha.startsWith("class")) {
                 estado = "CLASS";
                 String[] partes = linha.split("\\s+");
@@ -86,9 +85,9 @@ public class BoolMain {
                 estado = "CLASS";
                 metodoAtual = null;
             } else if (linha.equals("begin")) {
-                // Nada a fazer
+                // n faz nada
             } else if (linha.equals("end")) {
-                // Nada a fazer
+                // ignora
             } else if (linha.startsWith("vars") && estado.equals("METHOD")) {
                 String[] partes = linha.substring(5).split(",");
                 for (String var : partes) {
@@ -106,6 +105,7 @@ public class BoolMain {
     }
 
     private void executarMain() {
+        //cria o contexto para lidar com vars locais
         ExecutionContext contexto = new ExecutionContext(varsGlobais);
         pilhaContextos.push(contexto);
         executarInstrucoes(instrucoesMain, contexto);
@@ -125,11 +125,11 @@ public class BoolMain {
                 boolean condicao = (boolean) pilha.pop();
                 if (!condicao) {
                     pulouIf = true;
-                    i += n; // Salta 'n' instruções
+                    i += n; // pula as instrucoes
                 }
             } else if (comando.equals("else")) {
                 int n = Integer.parseInt(partes[1]);
-                if(!pulouIf) i += n; // Salta 'n' instruções
+                if(!pulouIf) i += n; // ve se pulou o if para evitar de pualr duas vezes
             } else if(!comando.equals("end-if")) {
                 interpretarInstrucao(instrucao, contexto);
             }
@@ -137,7 +137,6 @@ public class BoolMain {
                 break;
             }
 
-            // Chama o coletor de lixo a cada 5 instruções
             if (contadorInstrucoes % 5 == 0) {
                 executarColetorDeLixo();
             }
@@ -201,7 +200,7 @@ public class BoolMain {
                     throw new RuntimeException("Classe não encontrada: " + nomeClasse);
                 }
                 BoolObject objeto = new BoolObject(classe);
-                objetosCriados.add(objeto); // Adiciona à lista para o coletor de lixo
+                objetosCriados.add(objeto); // Adiciona na lista para o coletor de lixo
                 pilha.push(objeto);
                 break;
             case "get":
@@ -228,10 +227,9 @@ public class BoolMain {
                 String nomeMetodo = partes[1];
                 BoolObject objetoChamada = (BoolObject) pilha.pop();
                 if (objetoChamada.getClasse().getNome().equals("io") && nomeMetodo.equals("print")) {
-                    // Trata o método io.print
                     Object valorParaImprimir = pilha.pop();
                     System.out.println(valorParaImprimir);
-                    pilha.push(0); // Retorna 0
+                    pilha.push(0); // sempre retorna zero
                 } else {
                     executarMetodo(objetoChamada, nomeMetodo);
                 }
@@ -240,21 +238,19 @@ public class BoolMain {
                 pilha.pop();
                 break;
             case "vars":
-                // Inicializa as variáveis declaradas com zero
                 for (int i = 1; i < partes.length; i++) {
                     String nomeVar = partes[i].replace(",", "").trim();
                     contexto.setVariavel(nomeVar, 0);
                 }
                 break;
             case "ret":
-                // Retorna do método atual
                 if (!pilha.isEmpty()) {
                     Object retorno = pilha.pop();
                     contexto.setRetorno(retorno);
                 } else {
                     contexto.setRetorno(null);
                 }
-                contexto.setRetornar(true); // Sinaliza que deve retornar ao contexto anterior
+                contexto.setRetornar(true); // fala que tem que retornar pra sair do contexto
                 break;
             case "gt":
                 int v2Gt = (int) pilha.pop();
@@ -287,7 +283,7 @@ public class BoolMain {
                 pilha.push(v1Eq == v2Eq);
                 break;
             default:
-                throw new RuntimeException("Instrução desconhecida: " + comando);
+                throw new RuntimeException("nao achou a instrucao: " + comando);
         }
     }
 
@@ -298,31 +294,27 @@ public class BoolMain {
             throw new RuntimeException("Método não encontrado: " + nomeMetodo);
         }
 
-        // Cria um novo contexto de execução
+        // cria um contexto e adiciona o self que se refere a classe
         ExecutionContext contextoMetodo = new ExecutionContext();
         contextoMetodo.setVariavel("self", objeto);
 
-        // Retira os parâmetros da pilha
+        // pega os parametros da pilha e atribue no hash
         List<String> parametros = metodo.getParametros();
         List<Object> argumentos = new ArrayList<>();
         for (int i = 0; i < parametros.size(); i++) {
-            argumentos.add(0, pilha.pop()); // Inverte a ordem
+            argumentos.add(0, pilha.pop());
         }
-        // Atribui os parâmetros
         for (int i = 0; i < parametros.size(); i++) {
             contextoMetodo.setVariavel(parametros.get(i), argumentos.get(i));
         }
 
-        // Adiciona variáveis locais
         for (String varLocal : metodo.getVariaveisLocais()) {
             contextoMetodo.setVariavel(varLocal, null);
         }
         pilhaContextos.push(contextoMetodo);
 
-        // Executa as instruções do método
         executarInstrucoes(metodo.getInstrucoes(), contextoMetodo);
 
-        // Obtém o valor de retorno
         Object retorno = contextoMetodo.getRetorno();
         if (retorno != null) {
             pilha.push(retorno);
@@ -336,7 +328,7 @@ public class BoolMain {
             if (metodo != null) {
                 return metodo;
             }
-            // Segue o _prototype se existir
+            // heranca de metodo
             if (objeto.getPrototype() != null) {
                 objeto = objeto.getPrototype();
                 classeAtual = objeto.getClasse();
@@ -349,26 +341,24 @@ public class BoolMain {
 
     private void executarColetorDeLixo() {
         String novaCor = coletorCorAtual.equals("red") ? "black" : "red";
-        // Fase de marcação
         marcarObjetos(novaCor);
-        // Fase de coleta
         coletarObjetos(novaCor);
         coletorCorAtual = novaCor;
     }
 
     private void marcarObjetos(String cor) {
-        // Marca objetos na pilha
         for (Object obj : pilha) {
             if (obj instanceof BoolObject) {
                 marcarObjetoRecursivo((BoolObject) obj, cor);
             }
         }
-        // Marca objetos nas variáveis globais
+        // marca sempre o io
         for (Object obj : varsGlobais.values()) {
             if (obj instanceof BoolObject) {
                 marcarObjetoRecursivo((BoolObject) obj, cor);
             }
         }
+        //lida com as vars locais de cada contexto ainda vivos
         for (ExecutionContext contexto : pilhaContextos) {
             for (Object obj : contexto.getVariaveis().values()) {
                 if (obj instanceof BoolObject) {
@@ -376,7 +366,6 @@ public class BoolMain {
                 }
             }
         }
-        // Pode adicionar marcação em outros lugares se necessário
     }
 
     private void marcarObjetoRecursivo(BoolObject objeto, String cor) {
@@ -388,7 +377,6 @@ public class BoolMain {
                     marcarObjetoRecursivo((BoolObject) valor, cor);
                 }
             }
-            // Marca o _prototype
             if (objeto.getPrototype() != null) {
                 marcarObjetoRecursivo(objeto.getPrototype(), cor);
             }
@@ -401,21 +389,20 @@ public class BoolMain {
             BoolObject obj = iterator.next();
             if (!obj.getMarkColor().equals(cor)) {
                 iterator.remove();
-
-                // Remover referências e realizar limpeza se necessário
+                
             }
         }
     }
 
     public static void main(String[] args) {
-//        if (args.length != 1) {
-//            System.out.println("Uso: java BoolMain arquivo.boolc");
-//            return;
-//        }
+        if (args.length != 1) {
+            System.out.println("Uso: java BoolMain arquivo.boolc");
+            return;
+        }
 
         BoolMain interpretador = new BoolMain();
         try {
-            interpretador.executar("src/resultado.txt");
+            interpretador.executar(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }

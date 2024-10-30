@@ -1,9 +1,9 @@
 package objetos.args;
 
-import interfaces.CallMethod;
+
 import objetos.Methods.MethodCall;
 
-public class MethodCallArg extends Arg implements CallMethod {
+public class MethodCallArg extends Arg {
     private MethodCall methodCall;
 
     public MethodCallArg(MethodCall methodCall) {

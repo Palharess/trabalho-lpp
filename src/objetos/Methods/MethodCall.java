@@ -1,17 +1,12 @@
 package objetos.Methods;
 
 import geradores.Gerador;
-import interfaces.CallMethod;
 import objetos.Nomes;
 import objetos.NomesLista;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import static compilador.BoolCompiler.addLinha;
 
-import static main.Main.addLinha;
-
-public class MethodCall implements CallMethod {
+public class MethodCall {
     private Nomes nomeObjetos;
     private Nomes nomeMethod;
     private NomesLista parameters;

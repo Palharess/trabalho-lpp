@@ -3,7 +3,7 @@ package objetos.args;
 import geradores.Gerador;
 import objetos.Nomes;
 
-import static main.Main.addLinha;
+import static compilador.BoolCompiler.addLinha;
 
 public class NameArg extends Arg{
     private Nomes nome, nome2; //name.name ou name

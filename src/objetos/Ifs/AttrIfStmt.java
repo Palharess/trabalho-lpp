@@ -3,9 +3,6 @@ package objetos.Ifs;
 import objetos.Attr;
 import objetos.Lhs;
 import objetos.Nomes;
-import objetos.args.MethodCallArg;
-
-import static main.Main.addLinha;
 
 public class AttrIfStmt extends IfStmt {
     private Attr attr;
