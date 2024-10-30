@@ -319,6 +319,7 @@ public class BoolInterpreter {
         if (retorno != null) {
             pilha.push(retorno);
         }
+        pilhaContextos.pop();
     }
 
     private BoolMethod encontrarMetodo(BoolObject objeto, String nomeMetodo) {
