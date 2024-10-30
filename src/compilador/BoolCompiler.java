@@ -19,7 +19,7 @@ public class BoolCompiler {
 
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.out.println("Uso: java BoolCompiler input.bool output.boolc");
+            System.out.println("Uso: javac compilador/*.java\n java compilador.BoolCompiler arquivo.bool resultado.boolc");
             return;
         }
 

@@ -3,7 +3,7 @@ package interpretador;
 import java.io.*;
 import java.util.*;
 
-public class BoolMain {
+public class BoolInterpreter {
     private Map<String, BoolClasse> classes;
     private Map<String, Object> varsGlobais;
     private Deque<Object> pilha;
@@ -14,7 +14,7 @@ public class BoolMain {
     private Deque<ExecutionContext> pilhaContextos;
 
 
-    public BoolMain() {
+    public BoolInterpreter() {
         classes = new HashMap<>();
         varsGlobais = new HashMap<>();
         pilha = new ArrayDeque<>();
@@ -389,18 +389,18 @@ public class BoolMain {
             BoolObject obj = iterator.next();
             if (!obj.getMarkColor().equals(cor)) {
                 iterator.remove();
-                
+
             }
         }
     }
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Uso: java BoolMain arquivo.boolc");
+            System.out.println("Escreva no terminal dentro da src: javac interpretador/*.java\njava interpretador.BoolMain arquivoCompilado.boolc");
             return;
         }
 
-        BoolMain interpretador = new BoolMain();
+        BoolInterpreter interpretador = new BoolInterpreter();
         try {
             interpretador.executar(args[0]);
         } catch (Exception e) {
